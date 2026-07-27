@@ -1,46 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
+  <!-- Replaced by the `--base-href` argument to `flutter build`. -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description"
+        content="Xonix32 v2.51 by Shawn A. VanNess (1997-98), faithfully
+                 ported to Dart/Flutter. Claim 75% of the field while
+                 dodging diamonds and wipers.">
+
+  <!-- Link previews -->
+  <meta property="og:title" content="Xonix32 — the classic 1997 arcade game">
+  <meta property="og:description"
+        content="A faithful port of Shawn A. VanNess's Xonix32 v2.51.
+                 Same six colors, same chunky pixels, same rules.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+
+  <meta name="theme-color" content="#000000">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="xonix32">
+  <meta name="apple-mobile-web-app-title" content="Xonix32">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>xonix32</title>
+  <title>Xonix32 — the classic 1997 arcade game</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Black from the first paint: the game's sea is black, so there is
+       never a white flash before the engine boots. */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff0;                    /* RGB_YTEXT */
+      font: 14px/1.6 "DejaVu Sans Mono", ui-monospace, monospace;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+    #loading b { color: #008484; }    /* XBC_BLUEGRN */
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+  <div id="loading">
+    <div>
+      <b>XONIX32</b><br>Version 2.51 (31 Dec 1998)<br><br>loading&hellip;
+    </div>
+  </div>
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <script>
+    // Remove the placeholder once Flutter paints its first frame.
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('loading');
+      if (el) el.remove();
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
