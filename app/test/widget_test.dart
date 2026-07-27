@@ -6,10 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:xonix32/engine.dart' as engine;
 import 'package:xonix32/game_shell.dart';
+import 'package:xonix32/hiscores_store.dart';
 
 void main() {
   testWidgets('shell boots into splash and starts a game', (tester) async {
-    final game = XonixFlameGame();
+    final game = XonixFlameGame(storeOpener: () async => HiScoreStore(null));
     await tester.pumpWidget(GameWidget<XonixFlameGame>(game: game));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));

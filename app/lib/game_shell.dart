@@ -1,7 +1,8 @@
 // The Flame shell around the engine: fixed-timestep stepping of the
 // GameController, framebuffer-to-texture blitting with nearest-neighbor
-// scaling (fat pixels, like 1998), swipe/keyboard input, and the yellow
-// HUD strip that stands in for the original status bar.
+// scaling (fat pixels, like 1998), swipe/keyboard input, pause, the
+// high-score flow, and the yellow HUD strip that stands in for the
+// original status bar.
 
 import 'dart:async';
 import 'dart:ui' as ui;
@@ -9,18 +10,30 @@ import 'dart:ui' as ui;
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart' show KeyEventResult;
+import 'package:flutter/widgets.dart' show KeyEventResult, AppLifecycleState;
 import 'package:flutter/services.dart';
 
 import 'engine.dart' as engine;
+import 'hiscores_store.dart';
 import 'render/assets.dart';
 import 'render/framebuffer.dart';
 
 class XonixFlameGame extends FlameGame
     with KeyboardEvents, DragCallbacks, TapCallbacks {
+  /// How to open the persistent score table. Defaults to the platform
+  /// documents directory; tests substitute a temp-file store.
+  final Future<HiScoreStore> Function() _openStore;
+
+  XonixFlameGame({Future<HiScoreStore> Function()? storeOpener})
+      : _openStore = storeOpener ?? HiScoreStore.open;
+
   late final engine.Game game;
   late final engine.GameController controller;
   late final GameAssets gameAssets;
+  late HiScoreStore scores;
+
+  /// The F6 setting (1..20, like CLevelDialog).
+  int startLevel = 1;
 
   ui.Image? _frame;
   bool _building = false;
@@ -28,6 +41,14 @@ class XonixFlameGame extends FlameGame
   double _accMs = 0;
   double _flashClock = 0;
   bool _flash = false; // m_bFlash: gates the LOW TIME overlay
+
+  // High-score entry state (CNewHighScoreDialog)
+  int pendingHighScore = 0;
+  int _pendingSlot = engine.ScoreList.slots;
+  String _lastName = '';
+
+  bool _pausedByMenu = false;
+  bool _pausedByLifecycle = false;
 
   // Swipe detection
   static const double _swipeThreshold = 24;
@@ -38,18 +59,26 @@ class XonixFlameGame extends FlameGame
   @override
   Color backgroundColor() => const Color(0xFF000000);
 
+  bool _ready = false;
+
   @override
   Future<void> onLoad() async {
-    gameAssets = await GameAssets.load(images.bundle);
+    // Engine first, synchronously: input and stepping never see a
+    // half-built shell.
     game = engine.Game(
         engine.IntRect(0, 0, engine.wndSizeX, engine.wndSizeY));
     controller = engine.GameController(game);
+    controller.onGameOverScore = _onGameOverScore;
     _rgba = Uint8List(game.screen.width * game.screen.height * 4);
+    gameAssets = await GameAssets.load(images.bundle);
+    scores = await _openStore();
+    _ready = true;
   }
 
   @override
   void update(double dt) {
     super.update(dt);
+    if (!_ready) return;
 
     _flashClock += dt;
     if (_flashClock >= 0.5) {
@@ -141,26 +170,116 @@ class XonixFlameGame extends FlameGame
 
   void _renderHud(ui.Canvas canvas, double top) {
     final String text;
-    if (controller.isGameActive) {
+    if (controller.paused) {
+      text = 'PAUSED - tap to resume';
+    } else if (controller.isGameActive) {
       text = 'SCORE ${game.score}  LEVEL ${game.level}  '
           'XONI ${game.lives}  TIME ${game.timer}  '
           'FILL ${(game.fillFrac / 10).toStringAsFixed(1)}%';
     } else {
-      text = '${engine.gameTitle}  ${engine.release} - tap to play';
+      text = '${engine.gameTitle}  ${engine.release} - '
+          'tap to play, hold for options';
     }
     _hudText.render(canvas, text, Vector2(2, top + 2));
   }
 
-  // --- Input -------------------------------------------------------
+  // --- Game flow ---------------------------------------------------
 
-  void _startIfIdle() {
-    if (!controller.isGameActive) controller.startGame(1);
+  void startNewGame() {
+    if (!controller.isGameActive) controller.startGame(startLevel);
   }
+
+  void togglePause() {
+    if (!controller.isGameActive) return;
+    controller.paused = !controller.paused;
+  }
+
+  /// DoGameOver's scan, 2 seconds into the game-over screen.
+  void _onGameOverScore(int score) {
+    final slot = scores.list.findSlot(score);
+    if (slot >= engine.ScoreList.slots) return; // didn't place
+    pendingHighScore = score;
+    _pendingSlot = slot;
+    // The original dialog was modal: freeze the mode machine while the
+    // player types.
+    controller.paused = true;
+    overlays.add('nameEntry');
+  }
+
+  /// Prefill for the name dialog: the last name entered this session.
+  String get highScoreDefaultName => _lastName;
+
+  void submitHighScoreName(String name) {
+    if (name.isEmpty) name = 'XONI';
+    _lastName = name;
+    scores.list.insert(_pendingSlot, name, pendingHighScore);
+    scores.save();
+    _pendingSlot = engine.ScoreList.slots;
+    overlays.remove('nameEntry');
+    controller.paused = false;
+    overlays.add('scores'); // OnViewScores: show the new table
+  }
+
+  void openSettingsOverlay() {
+    if (overlays.isActive('settings')) return;
+    if (controller.isGameActive && !controller.paused) {
+      controller.paused = true;
+      _pausedByMenu = true;
+    }
+    overlays.add('settings');
+  }
+
+  void closeSettingsOverlay() {
+    overlays.remove('settings');
+    if (_pausedByMenu) {
+      _pausedByMenu = false;
+      controller.paused = false;
+    }
+  }
+
+  @override
+  void lifecycleStateChange(AppLifecycleState state) {
+    super.lifecycleStateChange(state);
+    // Auto-pause when the app leaves the foreground (the mobile analog
+    // of the original's boss key).
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden ||
+        state == AppLifecycleState.inactive) {
+      if (controller.isGameActive && !controller.paused) {
+        controller.paused = true;
+        _pausedByLifecycle = true;
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      // Resume only what we paused ourselves, and never under a dialog
+      if (_pausedByLifecycle &&
+          !overlays.isActive('nameEntry') &&
+          !overlays.isActive('settings')) {
+        controller.paused = false;
+      }
+      _pausedByLifecycle = false;
+    }
+  }
+
+  // --- Input -------------------------------------------------------
 
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
-    _startIfIdle();
+    if (controller.paused) {
+      if (!overlays.isActive('nameEntry') && !overlays.isActive('settings')) {
+        controller.paused = false;
+      }
+    } else if (controller.isGameActive) {
+      togglePause();
+    } else {
+      startNewGame();
+    }
+  }
+
+  @override
+  void onLongTapDown(TapDownEvent event) {
+    super.onLongTapDown(event);
+    openSettingsOverlay();
   }
 
   @override
@@ -207,7 +326,20 @@ class XonixFlameGame extends FlameGame
     } else if (key == LogicalKeyboardKey.f2 ||
         key == LogicalKeyboardKey.enter ||
         key == LogicalKeyboardKey.space) {
-      _startIfIdle();
+      startNewGame();
+    } else if (key == LogicalKeyboardKey.f3 ||
+        key == LogicalKeyboardKey.pause ||
+        key == LogicalKeyboardKey.keyP) {
+      togglePause();
+    } else if (key == LogicalKeyboardKey.f4) {
+      if (controller.isGameActive) controller.endGame();
+    } else if (key == LogicalKeyboardKey.f5 ||
+        key == LogicalKeyboardKey.f6) {
+      openSettingsOverlay();
+    } else if (key == LogicalKeyboardKey.f7) {
+      overlays.isActive('scores')
+          ? overlays.remove('scores')
+          : overlays.add('scores');
     } else {
       return KeyEventResult.ignored;
     }

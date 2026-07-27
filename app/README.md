@@ -20,7 +20,13 @@ GPL v2). See [`../PROPOSAL.md`](../PROPOSAL.md) for the full plan.
   and all six message overlays ship unmodified in `assets/` and are OR-
   blitted into the surface exactly like `DoBitBlt` did. Android/iOS
   scaffolding lives in `android/` and `ios/`.
-- M3 — full game loop UI (menus/high scores/settings): pending.
+- **M3 — full game loop UI: done.** Pause (tap during play, or
+  F3/P/Pause; auto-pauses when the app is backgrounded), the high-score
+  chain (game-over scan → name entry → table, persisted as an original-
+  format `HiScores.dat` via `path_provider`), and a settings panel with
+  the original ranges: game speed 10–50 FPS (F5's slider) and starting
+  level 1–20 (F6's spinner). Long-press (or F5/F6) opens settings; F7
+  shows the score table; F4 ends the game.
 - M4 — polish + store release: pending.
 
 ## Running

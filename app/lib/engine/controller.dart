@@ -19,6 +19,10 @@ class GameController {
   /// the fixed 50ms cadence, like the original.
   int fps = nomFps;
 
+  /// Pause (the F3 setting): the original stopped the game timer, which
+  /// froze whatever mode was on screen. step() is a no-op while paused.
+  bool paused = false;
+
   /// Fired once per game over, at the same moment the original scanned
   /// the high-score table (2 seconds into the game-over screen).
   void Function(int score)? onGameOverScore;
@@ -65,6 +69,7 @@ class GameController {
 
   /// One tick of MainLoop's mode switch.
   void step() {
+    if (paused) return;
     switch (mode) {
       case Mode.splash:
         _doSplash();

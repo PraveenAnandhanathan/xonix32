@@ -266,6 +266,16 @@ void testControllerFlow() {
   expectEq('READY? rolls into play', ctl.mode, Mode.play);
   expectEq('play cadence is game speed', ctl.tickDelayMs, 1000 ~/ nomFps);
 
+  // Pause freezes the mode machine and the game clock
+  final timerBefore = game.timer;
+  ctl.paused = true;
+  for (var i = 0; i < 10; i++) {
+    ctl.step();
+  }
+  expectEq('paused mode frozen', ctl.mode, Mode.play);
+  expectEq('paused clock frozen', game.timer, timerBefore);
+  ctl.paused = false;
+
   int? reportedScore;
   ctl.onGameOverScore = (s) => reportedScore = s;
   ctl.endGame();
