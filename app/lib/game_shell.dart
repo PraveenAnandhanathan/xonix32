@@ -181,8 +181,8 @@ class XonixFlameGame extends FlameGame
     style: const TextStyle(
       color: Color(0xFFFFFF00), // RGB_YTEXT
       fontSize: 11,
-      fontFamily: 'monospace',
-      fontFamilyFallback: ['Courier New', 'Courier', 'Menlo'],
+      fontFamily: 'XonixMono', // bundled DejaVu Sans Mono
+      fontFamilyFallback: ['monospace', 'Courier New', 'Courier'],
     ),
   );
 

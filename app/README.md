@@ -41,9 +41,15 @@ GPL v2). See [`../PROPOSAL.md`](../PROPOSAL.md) for the full plan.
 ```sh
 flutter pub get
 flutter run           # on an attached Android/iOS device or emulator
-flutter test          # engine suite (84 checks) + shell smoke test
+flutter run -d chrome # or in a browser — the web build is fully
+                      # self-hosted (local CanvasKit, bundled font)
+flutter test          # engine suite (86 checks) + shell/council tests
 dart test/engine_test.dart   # engine suite standalone, no device needed
 ```
+
+For a static web deployment: `flutter build web --release`, then serve
+`build/web/` from any web server — no CDN or network access needed at
+runtime, verified by playing a full session in headless Chromium.
 
 The engine suite verifies the difficulty formulas, palette layering,
 board geometry, flood-fill capture, wiper erasure, collision rules,
