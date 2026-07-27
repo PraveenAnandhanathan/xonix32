@@ -57,6 +57,15 @@ timeout/win scoring, a full seeded capture run, the mode machine, and —
 using the original `HiScores.dat` shipped in the repo root — the
 high-score file format.
 
+## Shipping
+
+- [`SUBMISSION.md`](SUBMISSION.md) — step-by-step Play Store and App
+  Store checklist, and what each store form wants.
+- [`RELEASE.md`](RELEASE.md) — build, signing, GitHub Pages, and GPL
+  compliance.
+- [`store/`](store/) — listing copy, privacy policy, icon, feature
+  graphic, and real-gameplay screenshots at every required resolution.
+
 ## Adversarial review
 
 The port has been through a "10th man" council review — an audit that
