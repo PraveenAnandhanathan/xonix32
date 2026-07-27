@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Xonix32</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="description" content="Xonix, the original X-Game, remade for Windows 95 and NT">
+<meta name="keywords" content="Xonix, Xonix32, arcade, game, Win32, Windows">
+</head>
+<body bgcolor="white" text="maroon" link="blue" vlink="purple" alink="red">
+
+<p align="left"><font face="Arial" size="4"><b>Xonix32</b></font></p>
+<p align="left"><font face="Arial"><b>Version 2.51</b></font> 
+<ul type="disc">
+<li><div align="left"><font face="Arial"><a href="http://www.mindspring.com/~xonix/Xonix32_Setup.exe">Download it! (approx 200 kb)</a></font></div>
+<li><div align="left"><font face="Arial"><a href="http://www.mindspring.com/~xonix/readme.html">Visit the Xonix32 home page</a></font></div>
+</ul>
+<p align="left"><font face="Arial"><b>Overview</b></font></p>
+<p align="left"><font face="Arial">Xonix32 is an adaptation of the classic X-Windows game &quot;Xonix&quot; for the Win32 
+platform. It has a few new surprises... As always, comments and suggestions are 
+welcome!</font></p>
+<p align="left"><font face="Arial"><a href="screenshot.html"><img src="screenshot.gif" width="269" height="201" border="0"></a></font></p>
+<p align="left"><font face="Arial"><b>Installation</b></font></p>
+<p align="left"><font face="Arial">Run the setup utility. Choose a destination directory, or accept the default. Click the 
+[Unzip] button. Click the [Close] button.</font></p>
+<p align="left"><font face="Arial">If you create a shortcut to Xonix32.exe, be aware of the &quot;Start in&quot; directory. This is 
+where Xonix32 will store the &quot;HiScores.dat&quot; file! To reset the high score table, simply 
+delete, move, or rename this file.</font></p>
+<p align="left"><font face="Arial"><b>Uninstallation</b></font></p>
+<p align="left"><font face="Arial">Like all good and decent software, Xonix32 does not store anything outside of its own 
+directory, not even in the registry. To uninstall Xonix32, simply delete the directory in 
+which it was installed. No special uninstall utility is required.</font></p>
+<p align="left"><font face="Arial"><b>Minimum System Requirements </b></font></p>
+<p align="left"><font face="Arial">Intel (or compatible) P90. Microsoft Windows 95 or Windows NT 4.0.</font></p>
+<p align="left"><font face="Arial">Note: Although Xonix32 should run under any Windows display mode, the game is 
+optimized for 256-color display modes. On slower machines, if game performance is 
+poor, try using a 256-color video mode. </font></p>
+<p align="left"><font face="Arial"><b>Instructions</b></font> </p>
+<p align="left"><font face="Arial">The following keys control the game...</font>
+<ul type="disc">
+<li><div align="left"><font face="Arial">[arrows] to move </font></div>
+<li><div align="left"><font face="Arial">[Esc] to quickly hide the game from your boss! </font></div>
+<li><div align="left"><font face="Arial">[F1] for help </font></div>
+<li><div align="left"><font face="Arial">[F2] to start a new game </font></div>
+<li><div align="left"><font face="Arial">[F3] or [Pause] to pause/resume gameplay </font></div>
+<li><div align="left"><font face="Arial">[F4] to end a game </font></div>
+<li><div align="left"><font face="Arial">[Alt-F4] to exit the application </font></div>
+<li><div align="left"><font face="Arial">[F5] to adjust the speed of the game </font></div>
+<li><div align="left"><font face="Arial">[F6] to alter the starting level </font></div>
+<li><div align="left"><font face="Arial">[F7] to view the high-score table </font></div>
+</ul>
+<p align="left"><font face="Arial">Avoid the white diamonds, black diamonds, yellow wipers, green clovers, pink stars, 
+blue moons, and purple horseshoes.</font></p>
+<p align="left"><font face="Arial">The object is to fill in 75% of the area with blueness. For each level completed, you earn 
+an extra Xoni and at least 100 points. The amount of the bonus depends on how quickly 
+you clear the level.</font></p>
+<p align="left"><font face="Arial">If you run out of time, you lose a Xoni. At default game speed, the time limit for level 1 is 
+1 minute. Level 2 allows 2 minutes, and so on, up to a maximum of 5 minutes for levels 
+five and higher.</font></p>
+<p align="left"><font face="Arial">If you complete a level without crashing, you will earn a bonus, depending on how much 
+time remains. You can also earn a bonus by filling more than the required 75%.</font></p>
+<p align="left"><font face="Arial"><b>Basic Tactics</b></font></p>
+<p align="left"><font face="Arial">Compressing: This technique is simple... successively fill in small areas of the screen, 
+when no white diamonds are nearby, to effectively reduce the amount of black space. 
+Compressing becomes quite difficult when as the fill percentage approaches 75%, 
+especially in higher levels.</font></p>
+<p align="left"><font face="Arial">Trapping: This was the most effective technique in the original Xonix, but the yellow 
+wipers (new to Xonix32) make things more difficult. Trapping involves making many 
+small parallel peninsulas, and waiting nearby for unlucky white diamonds to enter the 
+&quot;trap&quot;. To spring the trap, run to the end of a peninsula and connect to an adjacent 
+peninsula before the white diamond can escape. Trapping is easier (but more 
+dangerous) if you wait at end of one of the peninsulas.</font></p>
+<p align="left"><font face="Arial">Protecting Traps: The yellow wipers like to wipe out your peninsulas, which makes it 
+difficult to build traps in the first place. But they can also destroy your traps after you've 
+captured a white diamond (this is far more troublesome!). To protect your traps, try to fill 
+in the areas on each side of the trap. If your trap is sealed behind a solid wall of 
+blueness, the yellow wipers won't be able to penetrate it.</font></p>
+<p align="left"><font face="Arial"><b>Design Notes </b></font></p>
+<p align="left"><font face="Arial">The source files were developed for MFC 5.0, but they should work with MFC 4.0 and 
+higher. The code provides a good starting point to make your own Win32 arcade 
+games. Feel free to reuse this code, within the provisions of the GNU General Public 
+License.</font></p>
+<p align="left"><font face="Arial"><b>Version History</b></font> 
+<ul type="disc">
+<li><div align="left"><font face="Arial">[2.51] Updated help files. </font></div>
+<li><div align="left"><font face="Arial">[2.5] Minor bug fix. </font></div>
+<li><div align="left"><font face="Arial">[2.4] Minor bug fix. </font></div>
+<li><div align="left"><font face="Arial">[2.3] Minor bug fix. </font></div>
+<li><div align="left"><font face="Arial">[2.2] Changed source code packaging. </font></div>
+<li><div align="left"><font face="Arial">[2.2] Minor bug fix. </font></div>
+<li><div align="left"><font face="Arial">[2.1] Changed scoring rules. </font></div>
+<li><div align="left"><font face="Arial">[2.1] Removed the bonus indicator from the statusbar. </font></div>
+<li><div align="left"><font face="Arial">[2.0] Distributed in a self-extracting zip file. </font></div>
+<li><div align="left"><font face="Arial">[2.0] Changed rule: colliding with your own red line no longer kills you. </font></div>
+<li><div align="left"><font face="Arial">[2.0] Added animated welcome screen. </font></div>
+<li><div align="left"><font face="Arial">[2.0] Restructured code to implement DibSection technology. </font></div>
+<li><div align="left"><font face="Arial">[2.0] Misc bug fixes and optimizations. </font></div>
+<li><div align="left"><font face="Arial">[2.0] Significant code restructuring (less API and more MFC). </font></div>
+<li><div align="left"><font face="Arial">[1.3] Better-looking statusbar. </font></div>
+<li><div align="left"><font face="Arial">[1.3] Command-line params have been disabled in favor of a larger, fixed-size 
+window. </font></div>
+<li><div align="left"><font face="Arial">[1.2] Misc bug fixes and optimizations. </font></div>
+<li><div align="left"><font face="Arial">[1.1] Removed the &quot;optimization&quot; that sometimes caused the game screen to 
+overfill. Many thanks to Onno and Matt! </font></div>
+<li><div align="left"><font face="Arial">[1.0] Misc bug fixes and optimizations. </font></div>
+<li><div align="left"><font face="Arial">[0.6] Various bugs in the dot-bouncing logic are now fixed. </font></div>
+<li><div align="left"><font face="Arial">[0.6] Many small optimizations were made (mostly related to collision-detection 
+logic) and a bit of class restructuring took place. The game is now much more 
+robust. </font></div>
+<li><div align="left"><font face="Arial">[0.5] The game should now work with MMX processors, and other CPUs with 
+super-high resolution timing (greater than 200 MHz). Thanks Don! </font></div>
+<li><div align="left"><font face="Arial">[0.3] The &quot;pause&quot; bug is fixed. Thanks Jane! </font></div>
+<li><div align="left"><font face="Arial">[0.3] Dynamic refresh synchronization! Now you can play at higher speeds, in 
+larger windows, on slower machines! </font></div>
+<li><div align="left"><font face="Arial">[0.2] Splash screens and high score table. Go for the record! (about 2800 pts at 
+the time of this writing...) </font></div>
+<li><div align="left"><font face="Arial">[0.2] The &quot;boss&quot; key. Hitting [Esc] will minimize the app and rename it &quot;Microsoft 
+Excel&quot; on the taskbar. [F4] now takes on the role of &quot;end game&quot;. Have fun! </font></div>
+<li><div align="left"><font face="Arial">[0.1] Original version. </font></div>
+</ul>
+<p align="left"><font face="Arial"><b>Known Bugs</b></font> 
+<ul type="disc">
+<li><div align="left"><font face="Arial">The low-time warning doesn't flash perfectly. </font></div>
+</ul>
+<p align="left"><font face="Arial"><b>Copyright Info </b></font></p>
+<p align="left"><font face="Arial">Copyright (C) 1997-1998 Shawn A. VanNess</font></p>
+<p align="left"><font face="Arial">For detailed licensing information, see the file </font><font face="Arial"><a href="gnu_license.txt">gnu_license.txt</a></font><font face="Arial"> included with this source 
+code distribution.</font></p>
+<p align="left"><font face="Arial">This program is free software; you can redistribute it and/or modify it under the terms of 
+the GNU General Public License as published by the Free Software Foundation; either 
+version 2 of the License, or (at your option) any later version.</font></p>
+<p align="left"><font face="Arial">This program is distributed in the hope that it will be useful, but WITHOUT ANY 
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more 
+details.</font></p>
+<p align="left"><font face="Arial">You should have received a copy of the GNU General Public License along with this 
+program; if not, write to the Free Software Foundation, Inc., 675 Mass Ave, Cambridge, 
+MA 02139, USA.</font></p>
+<p>&nbsp;</p>
+</body>
+</html>
