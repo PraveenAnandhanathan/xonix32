@@ -14,12 +14,12 @@ const Color _black = Color(0xFF000000);
 
 const TextStyle _text = TextStyle(
   color: _yellow,
-  fontFamily: 'monospace',
+  fontFamily: 'XonixMono',
   fontSize: 16,
 );
 const TextStyle _small = TextStyle(
   color: _yellow,
-  fontFamily: 'monospace',
+  fontFamily: 'XonixMono',
   fontSize: 13,
 );
 
@@ -120,7 +120,7 @@ class _NameEntryOverlayState extends State<NameEntryOverlay> {
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: _yellow, width: 2)),
               hintText: 'your name',
-              hintStyle: TextStyle(color: _teal, fontFamily: 'monospace'),
+              hintStyle: TextStyle(color: _teal, fontFamily: 'XonixMono'),
             ),
             onSubmitted: (_) => _ok(),
           ),

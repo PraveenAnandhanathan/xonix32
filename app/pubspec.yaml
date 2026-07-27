@@ -21,7 +21,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: false
+  fonts:
+    - family: XonixMono
+      fonts:
+        - asset: assets/fonts/DejaVuSansMono.ttf
   assets:
+    - assets/fonts/DejaVuSansMono.ttf
+    - assets/fonts/LICENSE-DejaVuSansMono.txt
     - assets/splash.bmp
     - assets/msg_ready.bmp
     - assets/msg_level_complete.bmp
