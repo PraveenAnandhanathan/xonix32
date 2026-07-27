@@ -1,0 +1,9 @@
+name: xonix32
+description: >-
+  Faithful port of Xonix32 v2.51 by Shawn A. VanNess (1997-98, GPL).
+  M1: pure Dart game engine, headless. Flutter/Flame shell arrives in M2.
+publish_to: none
+version: 0.1.0
+
+environment:
+  sdk: ^3.0.0
