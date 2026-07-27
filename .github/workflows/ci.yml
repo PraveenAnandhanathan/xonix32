@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - run: flutter pub get
+      - run: flutter analyze
+
+      # Engine suite (86 checks), shell/UI flows, and the adversarial
+      # council suite — see app/doc/COUNCIL.md
+      - run: flutter test
+
+      # The web target must keep building: it is the GitHub Pages demo
+      - run: flutter build web --release

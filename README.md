@@ -8,6 +8,19 @@ The game was never published on GitHub by its author. This repository is an
 import of the original distribution as preserved on the Internet Archive:
 <https://archive.org/details/xonix-32>
 
+**▶ Play it in your browser: <https://praveenanandhanathan.github.io/xonix32/>**
+
+## Two things live here
+
+1. **The original 1998 game** — unmodified C++/MFC source and the shipped
+   binary, at the repository root (see the table below).
+2. **A faithful Android/iOS port** in [`app/`](app/) — the same game rebuilt
+   in Dart/Flutter, ported class-for-class from the original source: same
+   six colors, same 4px movement step, same difficulty and scoring
+   formulas, same `HiScores.dat` file format, same splash and message
+   bitmaps. See [`app/README.md`](app/README.md) and the port plan in
+   [`PROPOSAL.md`](PROPOSAL.md).
+
 ## Contents
 
 | Path | Description |

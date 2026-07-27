@@ -58,6 +58,31 @@ compliant when distributing binaries:
   public source is the pragmatic route many GPL ports take — decide
   knowingly.
 
+## Web (GitHub Pages)
+
+The playable demo is deployed from the `gh-pages` branch:
+
+```sh
+flutter build web --release --base-href "/xonix32/"
+# copy build/web/ onto the gh-pages branch root and push
+```
+
+Repo Settings → Pages → "Deploy from a branch" → `gh-pages` / root.
+Live at https://praveenanandhanathan.github.io/xonix32/ once enabled.
+
+## Store graphics
+
+`store/feature_graphic.png` and `store/screenshots/` are captured from
+the real game by `tool/store_screenshots.js` — Playwright drives the
+release web build at exact store resolutions. To regenerate:
+
+```sh
+flutter build web --release
+(cd build/web && python3 -m http.server 8321 --bind 127.0.0.1 &)
+npm i playwright   # anywhere; browsers must already be installed
+OUT_DIR=store_out node tool/store_screenshots.js
+```
+
 ## Version bumps
 
 `pubspec.yaml` `version: X.Y.Z+N` — X.Y.Z is the user-facing version,
