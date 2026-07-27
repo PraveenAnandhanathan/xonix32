@@ -3,7 +3,7 @@ description: >-
   Faithful mobile port of Xonix32 v2.51 by Shawn A. VanNess (1997-98, GPL).
   Pure Dart engine (M1) with a Flutter/Flame shell (M2).
 publish_to: none
-version: 0.1.0
+version: 1.0.0+1
 
 environment:
   sdk: ^3.0.0

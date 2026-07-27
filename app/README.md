@@ -27,7 +27,14 @@ GPL v2). See [`../PROPOSAL.md`](../PROPOSAL.md) for the full plan.
   the original ranges: game speed 10–50 FPS (F5's slider) and starting
   level 1–20 (F6's spinner). Long-press (or F5/F6) opens settings; F7
   shows the score table; F4 ends the game.
-- M4 — polish + store release: pending.
+- **M4 — release polish: done.** Launcher icons on both platforms are
+  generated from the original `MainFrame.ico` (`tool/make_icons.py`,
+  no dependencies), launch screens are black, the app is named
+  "Xonix32" and locked to landscape on Android and iOS, and the GPL
+  license ships in `LICENSE`. Store listing copy, privacy policy, and
+  the 512px listing icon live in `store/`; build/signing/GPL guidance
+  in [`RELEASE.md`](RELEASE.md). Version 1.0.0+1. Producing the actual
+  `.aab`/`.ipa` requires the Android SDK / Xcode (see RELEASE.md).
 
 ## Running
 
