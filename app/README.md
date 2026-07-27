@@ -5,30 +5,44 @@ GPL v2). See [`../PROPOSAL.md`](../PROPOSAL.md) for the full plan.
 
 ## Status
 
-- **M1 — engine port (this directory): done.** The complete game logic
-  lives in `lib/engine/` as pure, headless Dart with no Flutter imports:
-  the 8bpp framebuffer and drawing primitives (`screen.dart`), the game
-  objects (`objects.dart`), one-timeslice-per-tick gameplay (`game.dart`),
-  the splash/demo/play mode machine (`controller.dart`), the palette
+- **M1 — engine port: done.** The complete game logic lives in
+  `lib/engine/` as pure, headless Dart with no Flutter imports: the 8bpp
+  framebuffer and drawing primitives (`screen.dart`), the game objects
+  (`objects.dart`), one-timeslice-per-tick gameplay (`game.dart`), the
+  splash/demo/play mode machine (`controller.dart`), the palette
   (`palette.dart`), an MSVC-CRT-compatible `rand()` (`rand.dart`), and a
   byte-compatible `HiScores.dat` codec (`hi_scores.dart`).
-- M2 — Flame rendering + swipe input: next.
-- M3 — full game loop UI (splash/demo/HUD/high scores): pending.
+- **M2 — Flutter/Flame shell: done.** `lib/main.dart` +
+  `lib/game_shell.dart` run the engine at its fixed timestep and blit the
+  framebuffer with nearest-neighbor integer scaling (fat pixels). Input:
+  swipe anywhere to steer, tap to start; arrow keys / F2 on desktop.
+  `lib/render/` decodes the original 8bpp BMPs (`bmp.dart`) — the splash
+  and all six message overlays ship unmodified in `assets/` and are OR-
+  blitted into the surface exactly like `DoBitBlt` did. Android/iOS
+  scaffolding lives in `android/` and `ios/`.
+- M3 — full game loop UI (menus/high scores/settings): pending.
 - M4 — polish + store release: pending.
 
-## Running the tests
-
-The test suite is dependency-free:
+## Running
 
 ```sh
-dart pub get   # once, resolves the empty package config
-dart test/engine_test.dart
+flutter pub get
+flutter run           # on an attached Android/iOS device or emulator
+flutter test          # engine suite (84 checks) + shell smoke test
+dart test/engine_test.dart   # engine suite standalone, no device needed
 ```
 
-It verifies the difficulty formulas, palette layering, board geometry,
-flood-fill capture, wiper erasure, collision rules, timeout/win scoring, a
-full seeded capture run, the mode machine, and — using the original
-`HiScores.dat` shipped in the repo root — the high-score file format.
+The engine suite verifies the difficulty formulas, palette layering,
+board geometry, flood-fill capture, wiper erasure, collision rules,
+timeout/win scoring, a full seeded capture run, the mode machine, and —
+using the original `HiScores.dat` shipped in the repo root — the
+high-score file format.
+
+## Headless frame verification
+
+`dart run tool/render_frames.dart` runs the engine without Flutter and
+dumps PNG frames (splash, READY?, mid-game capture) to `doc/` using the
+original assets — see `doc/frame_*.png` for what the port looks like.
 
 ## Fidelity notes
 
