@@ -25,6 +25,16 @@ class ScoreList {
     return n;
   }
 
+  /// The original stored char[16] ASCII; clamp anything else so the
+  /// wire format can never throw on exotic input.
+  static String sanitizeName(String name) {
+    final units = [
+      for (final c in name.codeUnits.take(nameLen - 1))
+        (c >= 0x20 && c <= 0x7E) ? c : 0x3F, // '?'
+    ];
+    return String.fromCharCodes(units);
+  }
+
   void insert(int slot, String name, int score) {
     var n = slots - 1;
     while (n > slot) {
@@ -33,7 +43,7 @@ class ScoreList {
       n--;
     }
     _scores[n] = score;
-    _names[n] = name;
+    _names[n] = sanitizeName(name);
   }
 
   /// Parses HiScores.dat bytes (the original obfuscated format).
