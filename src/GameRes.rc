@@ -1,0 +1,328 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\GameRes.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\MainFrame.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&Game"
+    BEGIN
+        MENUITEM "&New\tF2",                    ID_GAME_NEW
+        MENUITEM "&Pause\tF3",                  ID_GAME_PAUSE
+        MENUITEM "&End\tF4",                    ID_GAME_END
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt-F4",               ID_APP_EXIT
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Speed...\tF5",               ID_OPTIONS_SPEED
+        MENUITEM "&Level...\tF6",               ID_OPTIONS_LEVEL
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&High Scores...\tF7",         ID_VIEW_SCORES
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "Instructions and tips",       ID_HELP_README
+        MENUITEM "License information (GNU)",   ID_HELP_LICENSE
+        MENUITEM SEPARATOR
+        MENUITEM "&About...\tF1",               ID_HELP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SPLASH              BITMAP  DISCARDABLE     "res\\splash.bmp"
+IDB_MSG_READY           BITMAP  DISCARDABLE     "res\\msg_ready.bmp"
+IDB_MSG_GAME_OVER       BITMAP  DISCARDABLE     "res\\msg_game_over.bmp"
+IDB_MSG_LEVEL_COMPLETE  BITMAP  DISCARDABLE     "res\\msg_level_complete.bmp"
+IDB_MSG_OUT_OF_TIME     BITMAP  DISCARDABLE     "res\\msg_out_of_time.bmp"
+IDB_MSG_CRASH           BITMAP  DISCARDABLE     "res\\msg_crash.bmp"
+IDB_MSG_LOW_TIME        BITMAP  DISCARDABLE     "res\\msg_low_time.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_HELP_ABOUT DIALOG DISCARDABLE  0, 0, 222, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Xonix32"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Web:  http://www.mindspring.com/~xonix",IDC_STATIC,40,5,175,8
+    LTEXT           "Email:  xonix@mindspring.com",IDC_STATIC,40,15,175,8
+    LTEXT           "<<< version string goes here >>>",IDC_TEXT_VERSION,40,
+                    25,175,8
+    LTEXT           "Copyright (C) 1997-1998  Shawn A. VanNess",IDC_STATIC,
+                    40,35,175,8
+    LTEXT           "Based on the original game by XPARC (???)",IDC_STATIC,
+                    40,45,175,8
+    LTEXT           "See gnu_license.txt for copyright and redistribution info",
+                    IDC_STATIC,40,55,175,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,10,25,20,20
+    DEFPUSHBUTTON   "OK",IDOK,80,70,55,14,BS_CENTER | BS_VCENTER
+END
+
+IDD_OPT_SPEED DIALOG DISCARDABLE  0, 0, 182, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Game Speed"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Slider1",IDC_SLIDER_SPEED,"msctls_trackbar32",
+                    TBS_AUTOTICKS | TBS_TOP | WS_TABSTOP,15,30,151,19
+    DEFPUSHBUTTON   "OK",IDOK,35,60,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,100,60,50,14
+    CTEXT           " 10 fps",IDC_STATIC,15,20,22,8
+    CTEXT           " 30 fps",IDC_STATIC,80,20,22,8
+    CTEXT           " 50 fps",IDC_STATIC,145,20,22,8
+    CTEXT           "100 pts",IDC_STATIC,15,10,24,8
+    CTEXT           "300 pts",IDC_STATIC,80,10,24,8
+    CTEXT           "500 pts",IDC_STATIC,145,10,24,8
+END
+
+IDD_OPT_LEVEL DIALOG DISCARDABLE  0, 0, 147, 61
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Starting Level"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT1,22,20,33,15,ES_AUTOHSCROLL
+    CONTROL         "Spin2",IDC_SPIN_LEVEL,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,50,20,11,15
+    DEFPUSHBUTTON   "OK",IDOK,85,10,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,85,30,50,14
+    LTEXT           "Level:",IDC_STATIC,25,10,20,8
+END
+
+IDD_HIGH_SCORES DIALOG DISCARDABLE  0, 0, 137, 116
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "High Scores"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,40,95,50,15
+    LISTBOX         IDC_LIST_RANK,5,7,20,83,NOT LBS_NOTIFY | 
+                    LBS_NOINTEGRALHEIGHT | WS_TABSTOP
+    LISTBOX         IDC_LIST_NAME,25,7,75,83,NOT LBS_NOTIFY | 
+                    LBS_NOINTEGRALHEIGHT | WS_TABSTOP
+    LISTBOX         IDC_LIST_SCORE,100,7,30,83,NOT LBS_NOTIFY | 
+                    LBS_NOINTEGRALHEIGHT | WS_TABSTOP
+END
+
+IDD_NEWHIGHSCORE DIALOG DISCARDABLE  0, 0, 122, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "New High Score!"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EDIT_NAME,10,25,100,15,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,35,45,50,14
+    LTEXT           "Enter your name, cowboy.",IDC_STATIC,10,15,100,8
+    LTEXT           "Your score is in the top ten!",IDC_STATIC,10,5,100,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_HELP_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 213
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 85
+    END
+
+    IDD_OPT_SPEED, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 175
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_OPT_LEVEL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 140
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 54
+    END
+
+    IDD_HIGH_SCORES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 130
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_NEWHIGHSCORE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 115
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 59
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "Xonix32"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "X32"
+    AFX_IDS_IDLEMESSAGE     "Welcome to Xonix32!"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCCLOSE         "Close the window"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_GAME_NEW             "Begin a new game"
+    ID_GAME_PAUSE           "Pause/Resume a game"
+    ID_GAME_END             "End this game"
+    ID_OPTIONS_SPEED        "Adjust the game speed"
+    ID_OPTIONS_LEVEL        "Adjust the starting level"
+    ID_VIEW_SCORES          "View the table of high scores"
+    ID_HELP_ABOUT           "About Xonix32"
+    ID_HELP_README          "View the readme file"
+    ID_HELP_LICENSE         "GNU licensing agreement"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_SBI_LEVEL            "Level: 00_"
+    ID_SBI_LIVES            "Lives: 00_"
+    ID_SBI_SCORE            "Score: 00000_"
+    ID_SBI_TIMER            "Time: 000_"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_EXIT             "Exit the application"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\GameRes.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
