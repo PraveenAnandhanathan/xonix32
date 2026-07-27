@@ -51,6 +51,14 @@ timeout/win scoring, a full seeded capture run, the mode machine, and —
 using the original `HiScores.dat` shipped in the repo root — the
 high-score file format.
 
+## Adversarial review
+
+The port has been through a "10th man" council review — an audit that
+assumed it was wrong and went hunting: line-by-line comparison against
+the original C++, whole-game soak tests, a flood-fill cross-check
+against an independent BFS, and codec fuzzing. Findings and fixes:
+[`doc/COUNCIL.md`](doc/COUNCIL.md).
+
 ## Headless frame verification
 
 `dart run tool/render_frames.dart` runs the engine without Flutter and

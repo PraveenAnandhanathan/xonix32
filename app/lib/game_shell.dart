@@ -70,9 +70,19 @@ class XonixFlameGame extends FlameGame
     controller = engine.GameController(game);
     controller.onGameOverScore = _onGameOverScore;
     _rgba = Uint8List(game.screen.width * game.screen.height * 4);
+    // In-memory table immediately (so F7 can't race the async open),
+    // replaced by the persistent store as soon as it resolves.
+    scores = HiScoreStore(null);
     gameAssets = await GameAssets.load(images.bundle);
     scores = await _openStore();
     _ready = true;
+  }
+
+  @override
+  void onRemove() {
+    _frame?.dispose();
+    _frame = null;
+    super.onRemove();
   }
 
   @override
@@ -80,8 +90,10 @@ class XonixFlameGame extends FlameGame
     super.update(dt);
     if (!_ready) return;
 
+    // The original's flash clock ran at 1000*NOM_FPS/fps ms, so the
+    // LOW TIME blink tracks the game speed setting.
     _flashClock += dt;
-    if (_flashClock >= 0.5) {
+    if (_flashClock >= engine.nomFps / controller.fps) {
       _flashClock = 0;
       _flash = !_flash;
     }
@@ -97,21 +109,26 @@ class XonixFlameGame extends FlameGame
     }
     if (_accMs >= controller.tickDelayMs) _accMs = 0;
 
-    if (stepped) {
-      _drawOverlay();
-      _rebuildFrame();
-    }
+    if (stepped) _presentFrame();
   }
 
-  /// DoBitBlt: OR the message bitmap into the game surface.
-  void _drawOverlay() {
+  /// DoBitBlt, faithfully: OR the message bitmap into the game surface,
+  /// snapshot the frame, then NAND the ytext bits back out — the
+  /// original never let a message linger in the framebuffer.
+  void _presentFrame() {
+    engine.IntRect? msgRect;
     final o = controller.overlay;
-    if (o == null) return;
-    if (o == engine.MessageOverlay.lowTime && !_flash) return;
-    final bmp = gameAssets.forOverlay(o);
-    game.screen.drawBmp(game.rcScr.right ~/ 2, game.rcScr.bottom ~/ 2,
-        bmp.width, bmp.height, bmp.pixels,
-        center: true, mop: engine.MaskOp.or);
+    if (o != null && (o != engine.MessageOverlay.lowTime || _flash)) {
+      final bmp = gameAssets.forOverlay(o);
+      msgRect = engine.IntRect(0, 0, 0, 0);
+      game.screen.drawBmp(game.rcScr.right ~/ 2, game.rcScr.bottom ~/ 2,
+          bmp.width, bmp.height, bmp.pixels,
+          center: true, outRect: msgRect, mop: engine.MaskOp.or);
+    }
+    _rebuildFrame(); // pixel conversion happens synchronously inside
+    if (msgRect != null) {
+      game.screen.drawRect(msgRect, engine.xbcYText, engine.MaskOp.nand);
+    }
   }
 
   void _rebuildFrame() {
@@ -165,6 +182,7 @@ class XonixFlameGame extends FlameGame
       color: Color(0xFFFFFF00), // RGB_YTEXT
       fontSize: 11,
       fontFamily: 'monospace',
+      fontFamilyFallback: ['Courier New', 'Courier', 'Menlo'],
     ),
   );
 
@@ -311,7 +329,8 @@ class XonixFlameGame extends FlameGame
   @override
   KeyEventResult onKeyEvent(
       KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+    // The original ignored key repeats (nFlags & 0x4000)
+    if (event is! KeyDownEvent) {
       return KeyEventResult.ignored;
     }
     final key = event.logicalKey;

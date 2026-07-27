@@ -4,28 +4,21 @@
 
 import 'dart:io';
 
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:xonix32/engine.dart' as engine;
 import 'package:xonix32/game_shell.dart';
 import 'package:xonix32/hiscores_store.dart';
-import 'package:xonix32/ui/overlays.dart';
+import 'package:xonix32/main.dart';
 
+/// Pumps the REAL production widget tree (buildApp), so a missing
+/// ancestor (MaterialApp, Directionality, ...) fails here before it can
+/// crash on a device.
 Future<XonixFlameGame> _pumpGame(WidgetTester tester, {File? scoreFile}) async {
   final game =
       XonixFlameGame(storeOpener: () async => HiScoreStore(scoreFile));
-  await tester.pumpWidget(MaterialApp(
-    home: GameWidget<XonixFlameGame>(
-      game: game,
-      overlayBuilderMap: {
-        'nameEntry': (context, XonixFlameGame g) => NameEntryOverlay(game: g),
-        'scores': (context, XonixFlameGame g) => ScoresOverlay(game: g),
-        'settings': (context, XonixFlameGame g) => SettingsOverlay(game: g),
-      },
-    ),
-  ));
+  await tester.pumpWidget(buildApp(gameFactory: () => game));
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 50));
   return game;
@@ -125,5 +118,30 @@ void main() {
     // A new game starts at the chosen level with the real engine
     game.startNewGame();
     expect(game.game.level, 3);
+  });
+
+  testWidgets('message overlays never burn into the framebuffer',
+      (tester) async {
+    final game = await _pumpGame(tester);
+    game.controller.startGame(1);
+
+    // Drive the shell through READY? (40 ticks of 50ms) into play; the
+    // original drew each message, blitted, then NAND-erased it — so
+    // after any update() the surface must hold no ytext bits.
+    var sawReady = false;
+    for (var i = 0; i < 120; i++) {
+      game.update(0.05);
+      sawReady |= game.controller.overlay == engine.MessageOverlay.ready;
+      final bits = game.game.screen.bits;
+      for (var p = 0; p < bits.length; p++) {
+        if (bits[p] & engine.xbcYText != 0) {
+          fail('ytext residue at pixel $p on update $i '
+              '(mode ${game.controller.mode})');
+        }
+      }
+      if (game.controller.mode == engine.Mode.play) break;
+    }
+    expect(sawReady, isTrue, reason: 'test never saw the READY? overlay');
+    expect(game.controller.mode, engine.Mode.play);
   });
 }
