@@ -157,7 +157,12 @@ class XonixFlameGame extends FlameGame
     var scale = (size.x / vw).floorToDouble();
     final vScale = (size.y / vh).floorToDouble();
     if (vScale < scale) scale = vScale;
-    if (scale < 1) scale = (size.x / vw).clamp(0.1, 1.0);
+    if (scale < 1) {
+      // Screen too small for 1x: fit fractionally on BOTH axes (many
+      // phones are under 400 logical px tall in landscape).
+      final fx = size.x / vw, fy = size.y / vh;
+      scale = (fx < fy ? fx : fy).clamp(0.1, 1.0);
+    }
 
     final dx = (size.x - vw * scale) / 2;
     final dy = (size.y - vh * scale) / 2;

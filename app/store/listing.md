@@ -36,6 +36,21 @@ Features:
 Free software under the GNU GPL. Source code:
 https://github.com/PraveenAnandhanathan/xonix32
 
+Play in your browser: https://praveenanandhanathan.github.io/xonix32/
+
+## Privacy policy URL (for both store forms)
+
+https://github.com/PraveenAnandhanathan/xonix32/blob/main/app/store/privacy.md
+
+## Graphics assets (all real gameplay captures)
+
+- `icon_512.png` — Play listing icon
+- `feature_graphic.png` — Play feature graphic, 1024x500
+- `screenshots/android-phone/` — 1920x1080
+- `screenshots/ios-6.9/` — 2868x1320 (iPhone 16 Pro Max class)
+- `screenshots/ios-6.5/` — 2688x1242 (iPhone 11 Pro Max class)
+- `screenshots/ipad-13/` — 2732x2048
+
 ## Keywords (App Store)
 
 xonix,arcade,retro,classic,qix,claim,territory,90s,pixel
