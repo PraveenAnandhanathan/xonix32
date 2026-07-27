@@ -60,15 +60,26 @@ compliant when distributing binaries:
 
 ## Web (GitHub Pages)
 
-The playable demo is deployed from the `gh-pages` branch:
+Live at <https://praveenanandhanathan.github.io/xonix32/>.
+
+Deployment is automatic: `.github/workflows/pages.yml` runs on every
+push to `main` that touches `app/`, verifies the port (analyze +
+tests), builds the web release, and force-pushes the output to the
+`gh-pages` branch — which is what the repo's Pages source points at
+("Deploy from a branch" → `gh-pages` / root).
+
+Manual equivalent, if you ever need it:
 
 ```sh
 flutter build web --release --base-href "/xonix32/"
+touch build/web/.nojekyll
 # copy build/web/ onto the gh-pages branch root and push
 ```
 
-Repo Settings → Pages → "Deploy from a branch" → `gh-pages` / root.
-Live at https://praveenanandhanathan.github.io/xonix32/ once enabled.
+Note: if you switch Settings → Pages → Source to "GitHub Actions",
+swap the workflow's publish step for `actions/upload-pages-artifact` +
+`actions/deploy-pages` — that path needs the Actions source and fails
+against a branch source.
 
 ## Store graphics
 

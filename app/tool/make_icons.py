@@ -92,10 +92,19 @@ def main():
         'Icon-App-76x76@2x.png': 152, 'Icon-App-83.5x83.5@2x.png': 167,
         'Icon-App-1024x1024@1x.png': 1024,
     }
+    web = {
+        'web/favicon.png': 32,
+        'web/icons/Icon-192.png': 192,
+        'web/icons/Icon-512.png': 512,
+        'web/icons/Icon-maskable-192.png': 192,
+        'web/icons/Icon-maskable-512.png': 512,
+    }
     for path, size in android.items():
         write_png(path, scale(px, w, h, size, size))
     for name, size in ios.items():
         write_png(os.path.join(ios_dir, name), scale(px, w, h, size, size))
+    for path, size in web.items():
+        write_png(path, scale(px, w, h, size, size))
     # Play Store listing icon
     write_png('store/icon_512.png', scale(px, w, h, 512, 512))
 

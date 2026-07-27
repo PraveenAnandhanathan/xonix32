@@ -1,12 +1,12 @@
 {
-    "name": "xonix32",
-    "short_name": "xonix32",
+    "name": "Xonix32",
+    "short_name": "Xonix32",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "description": "Xonix32 v2.51 by Shawn A. VanNess (1997-98), faithfully ported. Claim 75% of the field while dodging diamonds and wipers.",
+    "orientation": "landscape",
     "prefer_related_applications": false,
     "icons": [
         {

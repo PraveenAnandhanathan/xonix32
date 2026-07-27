@@ -8,22 +8,20 @@ on:
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
+# Publishing happens by pushing the built site to the gh-pages branch,
+# which is what this repo's Pages source is set to ("Deploy from a
+# branch"). If you ever switch Settings -> Pages -> Source to "GitHub
+# Actions", replace the deploy step with actions/deploy-pages.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Let a running deploy finish; queue at most one more.
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: app
     steps:
       - uses: actions/checkout@v4
 
@@ -31,27 +29,35 @@ jobs:
         with:
           channel: stable
 
-      - run: flutter pub get
+      - name: Install dependencies
+        working-directory: app
+        run: flutter pub get
 
-      # The port is only worth shipping if it still passes
-      - run: flutter analyze
-      - run: flutter test
+      # The demo is only worth publishing if the port still passes
+      - name: Analyze
+        working-directory: app
+        run: flutter analyze
 
-      - run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
+      - name: Test
+        working-directory: app
+        run: flutter test
 
-      # Stop Jekyll from eating files that begin with an underscore
-      - run: touch build/web/.nojekyll
+      - name: Build web
+        working-directory: app
+        run: |
+          flutter build web --release \
+            --base-href "/${{ github.event.repository.name }}/"
+          touch build/web/.nojekyll
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: app/build/web
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish to gh-pages
+        run: |
+          cd app/build/web
+          git init -q
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy ${GITHUB_SHA::7} to GitHub Pages"
+          git push -q --force \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" \
+            HEAD:gh-pages
