@@ -1,9 +1,30 @@
 name: xonix32
 description: >-
-  Faithful port of Xonix32 v2.51 by Shawn A. VanNess (1997-98, GPL).
-  M1: pure Dart game engine, headless. Flutter/Flame shell arrives in M2.
+  Faithful mobile port of Xonix32 v2.51 by Shawn A. VanNess (1997-98, GPL).
+  Pure Dart engine (M1) with a Flutter/Flame shell (M2).
 publish_to: none
 version: 0.1.0
 
 environment:
   sdk: ^3.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flame: ^1.18.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  test: ^1.31.0
+
+flutter:
+  uses-material-design: false
+  assets:
+    - assets/splash.bmp
+    - assets/msg_ready.bmp
+    - assets/msg_level_complete.bmp
+    - assets/msg_crash.bmp
+    - assets/msg_low_time.bmp
+    - assets/msg_out_of_time.bmp
+    - assets/msg_game_over.bmp

@@ -1,11 +1,12 @@
 // Headless test suite for the Xonix32 engine port (M1).
 //
-// Zero dependencies by design — run with:  dart test/engine_test.dart
-// Exits non-zero on any failure.
+// Runs under both `flutter test` and a plain `dart test/engine_test.dart`.
 
 import 'dart:io';
 
-import '../lib/engine.dart';
+import 'package:test/test.dart' as t;
+
+import 'package:xonix32/engine.dart';
 
 int _passed = 0;
 final List<String> _failures = <String>[];
@@ -317,22 +318,24 @@ void testOriginalHiScoresDat() {
 
 //-----------------
 void main() {
-  testRand();
-  testLevelFormulas();
-  testPalette();
-  testRectQuantization();
-  testBoardInit();
-  testFloodFill();
-  testWipeAndFill();
-  testWiperErasesTrail();
-  testWDotHitTest();
-  testTimeout();
-  testWinScoring();
-  testCaptureRun();
-  testControllerFlow();
-  testHiScoresRoundtrip();
-  testOriginalHiScoresDat();
+  t.test('Xonix32 engine suite', () {
+    testRand();
+    testLevelFormulas();
+    testPalette();
+    testRectQuantization();
+    testBoardInit();
+    testFloodFill();
+    testWipeAndFill();
+    testWiperErasesTrail();
+    testWDotHitTest();
+    testTimeout();
+    testWinScoring();
+    testCaptureRun();
+    testControllerFlow();
+    testHiScoresRoundtrip();
+    testOriginalHiScoresDat();
 
-  print('$_passed checks passed, ${_failures.length} failed');
-  if (_failures.isNotEmpty) exit(1);
+    print('$_passed checks passed, ${_failures.length} failed');
+    t.expect(_failures, t.isEmpty);
+  });
 }
