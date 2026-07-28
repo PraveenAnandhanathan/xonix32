@@ -1,0 +1,12 @@
+# Copy to android/key.properties and fill in — that file is gitignored
+# and must never be committed or shared. Losing this keystore means you
+# can no longer update the app on Play, so back it up somewhere safe.
+#
+# Create the keystore first:
+#   keytool -genkey -v -keystore ~/xonix32-upload.jks \
+#           -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+
+storePassword=<the password you gave keytool>
+keyPassword=<the key password, usually the same>
+keyAlias=upload
+storeFile=/absolute/path/to/xonix32-upload.jks
