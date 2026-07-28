@@ -20,11 +20,31 @@ flutter build appbundle --release   # Play Store upload (.aab)
 flutter build apk --release         # sideloadable .apk
 ```
 
-Signing: the default is the debug key. For the Play Store, create an
-upload keystore and a `android/key.properties`, then wire it into
-`android/app/build.gradle.kts` as per
-https://docs.flutter.dev/deployment/android#sign-the-app. Never commit
-the keystore or `key.properties`.
+### Signing
+
+Gradle is already wired for an upload key — you only need to supply
+the credentials:
+
+```sh
+keytool -genkey -v -keystore ~/xonix32-upload.jks \
+        -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+cp android/key.properties.example android/key.properties
+# edit android/key.properties with the paths/passwords you just used
+```
+
+`android/app/build.gradle.kts` reads that file and signs release
+builds with it. If the file is missing it falls back to debug keys so
+`flutter run --release` still works, and prints a warning during the
+build — Play **rejects** debug-signed uploads, so make sure you do not
+see this line before submitting:
+
+```
+Xonix32: android/key.properties not found - release builds will be
+DEBUG-SIGNED and rejected by Play. See RELEASE.md.
+```
+
+`key.properties`, `*.jks`, and `*.keystore` are gitignored. Back the
+keystore up: losing it means you can never update the app again.
 
 Play Console assets: `store/icon_512.png` (listing icon),
 `store/listing.md` (copy), `store/privacy.md` (privacy policy — host it

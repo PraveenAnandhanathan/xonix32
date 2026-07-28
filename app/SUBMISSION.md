@@ -11,7 +11,7 @@ listing copy in [`store/listing.md`](store/listing.md).
 | Play Console account | play.google.com/console/signup | $25 one-time |
 | Apple Developer Program | developer.apple.com/programs | $99/year, enrol early — verification can take days |
 | A Mac with Xcode | — | required for iOS; Android builds work anywhere |
-| Upload keystore | your machine | `RELEASE.md` → Android; back it up, never commit it |
+| Upload keystore | your machine | `keytool` + copy `android/key.properties.example` → `key.properties`; Gradle is already wired. Back it up, never commit it |
 | Privacy policy URL | this repo (public) | `app/store/privacy.md` on GitHub |
 | Source URL (GPL) | this repo | keep public while binaries are distributed |
 
@@ -36,7 +36,11 @@ All screenshots are real gameplay, regenerable with
 
 ## Google Play
 
-1. `flutter build appbundle --release` → `build/app/outputs/bundle/release/app-release.aab`
+1. Set up the upload key (above), then
+   `flutter build appbundle --release` →
+   `build/app/outputs/bundle/release/app-release.aab`.
+   Watch the build log: a "will be DEBUG-SIGNED" warning means
+   `key.properties` was not found and Play will reject the upload.
 2. Play Console → **Create app**: name "Xonix32", Game, Free.
 3. **App content** forms:
    - Privacy policy → the `store/privacy.md` URL
