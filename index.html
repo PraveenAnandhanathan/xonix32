@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Replaced by the `--base-href` argument to `flutter build`. -->
+  <base href="/xonix32/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description"
+        content="Xonix32 v2.51 by Shawn A. VanNess (1997-98), faithfully
+                 ported to Dart/Flutter. Claim 75% of the field while
+                 dodging diamonds and wipers.">
+
+  <!-- Link previews -->
+  <meta property="og:title" content="Xonix32 — the classic 1997 arcade game">
+  <meta property="og:description"
+        content="A faithful port of Shawn A. VanNess's Xonix32 v2.51.
+                 Same six colors, same chunky pixels, same rules.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+
+  <meta name="theme-color" content="#000000">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Xonix32">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Xonix32 — the classic 1997 arcade game</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Black from the first paint: the game's sea is black, so there is
+       never a white flash before the engine boots. */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff0;                    /* RGB_YTEXT */
+      font: 14px/1.6 "DejaVu Sans Mono", ui-monospace, monospace;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+    #loading b { color: #008484; }    /* XBC_BLUEGRN */
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div>
+      <b>XONIX32</b><br>Version 2.51 (31 Dec 1998)<br><br>loading&hellip;
+    </div>
+  </div>
+
+  <script>
+    // Remove the placeholder once Flutter paints its first frame.
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('loading');
+      if (el) el.remove();
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
